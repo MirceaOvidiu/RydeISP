@@ -16,6 +16,9 @@ public class Meniu {
         System.out.println("8. Vizualizare profil");
         System.out.println("9. Editare profil");
         System.out.println("10. Iesire");
+        System.out.println("11. Creare angajat nou");
+        System.out.println("12. Stergere angajat");
+        System.out.println("13. Editare angajat");
     }
 
     public void afisareMeniu() {
@@ -24,7 +27,7 @@ public class Meniu {
         ArrayList<User> users = new ArrayList<>();
 
         // Pre existing admin user
-        User admin = new User();
+        User admin = new Admin();
         admin.setId("1");
         admin.setName("admin");
         admin.setEmail("");
@@ -124,9 +127,30 @@ public class Meniu {
                     }
                     editUserProfile(scanner, currentUser);
                     break;
-                case 10: // Changed from 8
+                case 10:
                     System.out.println("La revedere!");
                     running = false;
+                    break;
+                case 11:
+                    if (!isAdmin(currentUser)) {
+                        System.out.println("Acces interzis! Doar administratorii pot accesa aceasta functie.");
+                        break;
+                    }
+                    createEmployee(scanner, users);
+                    break;
+                case 12:
+                    if (!isAdmin(currentUser)) {
+                        System.out.println("Acces interzis! Doar administratorii pot accesa aceasta functie.");
+                        break;
+                    }
+                    deleteEmployee(scanner, users);
+                    break;
+                case 13:
+                    if (!isAdmin(currentUser)) {
+                        System.out.println("Acces interzis! Doar administratorii pot accesa aceasta functie.");
+                        break;
+                    }
+                    editEmployee(scanner, users);
                     break;
                 default:
                     System.out.println("Optiune invalida");
@@ -134,7 +158,6 @@ public class Meniu {
         }
         scanner.close();
     }
-
 
     // User related functions
     private User login(Scanner scanner, ArrayList<User> users) {
@@ -169,6 +192,10 @@ public class Meniu {
         users.add(newUser);
         System.out.println("Cont creat cu succes!");
         return newUser;
+    }
+
+    private boolean isAdmin(User user) {
+        return user != null && user.getName().equals("admin");
     }
 
     private void showUserProfile(User user) {
@@ -211,6 +238,94 @@ public class Meniu {
                 System.out.println("Optiune invalida!");
         }
     }
+
+    private void createEmployee(Scanner scanner, ArrayList<User> users) {
+        System.out.println("\n=== Creare Angajat Nou ===");
+        System.out.print("Username: ");
+        String username = scanner.next();
+        System.out.print("Email: ");
+        String email = scanner.next();
+        System.out.print("Password: ");
+        String password = scanner.next();
+        System.out.print("Employee ID: ");
+        String employeeId = scanner.next();
+        System.out.print("Role: ");
+        String role = scanner.next();
+        System.out.print("Department: ");
+        String department = scanner.next();
+        System.out.print("Salary: ");
+        double salary = scanner.nextDouble();
+
+        String newId = String.valueOf(users.size() + 1);
+        Angajat newEmployee = new Angajat(newId, username, email, password, employeeId, role, department, salary);
+        users.add(newEmployee);
+        System.out.println("Angajat creat cu succes!");
+    }
+
+    private void deleteEmployee(Scanner scanner, ArrayList<User> users) {
+        System.out.print("Introduceti Employee ID-ul angajatului de sters: ");
+        String employeeId = scanner.next();
+
+        users.removeIf(user -> user instanceof Angajat &&
+                ((Angajat) user).getEmployeeId().equals(employeeId));
+        System.out.println("Angajat sters cu succes!");
+    }
+
+    private void editEmployee(Scanner scanner, ArrayList<User> users) {
+        System.out.print("Introduceti Employee ID-ul angajatului de modificat: ");
+        String employeeId = scanner.next();
+
+        for (User user : users) {
+            if (user instanceof Angajat && ((Angajat) user).getEmployeeId().equals(employeeId)) {
+                Angajat employee = (Angajat) user;
+                System.out.println("\n=== Editare Angajat ===");
+                System.out.println("1. Modificare nume");
+                System.out.println("2. Modificare email");
+                System.out.println("3. Modificare parola");
+                System.out.println("4. Modificare rol");
+                System.out.println("5. Modificare departament");
+                System.out.println("6. Modificare salariu");
+                System.out.print("Alege o optiune: ");
+
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
+
+                switch (choice) {
+                    case 1:
+                        System.out.print("Noul nume: ");
+                        employee.setName(scanner.nextLine());
+                        break;
+                    case 2:
+                        System.out.print("Noul email: ");
+                        employee.setEmail(scanner.nextLine());
+                        break;
+                    case 3:
+                        System.out.print("Noua parola: ");
+                        employee.setPass(scanner.nextLine());
+                        break;
+                    case 4:
+                        System.out.print("Noul rol: ");
+                        employee.setRole(scanner.nextLine());
+                        break;
+                    case 5:
+                        System.out.print("Noul departament: ");
+                        employee.setDepartment(scanner.nextLine());
+                        break;
+                    case 6:
+                        System.out.print("Noul salariu: ");
+                        employee.setSalary(scanner.nextDouble());
+                        break;
+                    default:
+                        System.out.println("Optiune invalida!");
+                        return;
+                }
+                System.out.println("Angajat modificat cu succes!");
+                return;
+            }
+        }
+        System.out.println("Angajat negasit!");
+    }
+
 
     private void afisareBicicleteDisponibile(ArrayList<Bicicleta> biciclete) {
         for (Bicicleta bicicleta : biciclete) {
@@ -256,7 +371,7 @@ public class Meniu {
         cursa.setEndTime(String.valueOf(System.currentTimeMillis()));
         cursa.endCursa();
 
-        int distance = (int)((Long.parseLong(cursa.getEndTime()) - Long.parseLong(cursa.getStartTime())) * 5);
+        int distance = (int) ((Long.parseLong(cursa.getEndTime()) - Long.parseLong(cursa.getStartTime())) * 5);
         cursa.setDistance(distance);
         cursa.writeCursaToFile(cursa);
 
