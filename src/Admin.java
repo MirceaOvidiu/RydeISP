@@ -1,5 +1,5 @@
 public class Admin extends User {
-    public class Angajat extends User {
+    public static class Angajat extends User {
         private String role;
         private String department;
         private String employeeId;

@@ -4,21 +4,27 @@ import java.util.Scanner;
 public class Meniu {
     private User currentUser;
 
-    public static void listMenuOptions() {
+    public void listMenuOptions() {
         System.out.println("\n=== Meniu Principal ===");
-        System.out.println("1. Autentificare");
-        System.out.println("2. Creare cont nou");
-        System.out.println("3. Afisare biciclete disponibile");
-        System.out.println("4. Rezervare bicicleta");
-        System.out.println("5. Incepere cursa");
-        System.out.println("6. Finalizare cursa");
-        System.out.println("7. Afisare detalii cursa");
-        System.out.println("8. Vizualizare profil");
-        System.out.println("9. Editare profil");
-        System.out.println("10. Iesire");
-        System.out.println("11. Creare angajat nou");
-        System.out.println("12. Stergere angajat");
-        System.out.println("13. Editare angajat");
+        System.out.println("1.  Autentificare");
+        System.out.println("2.  Creare cont nou");
+        System.out.println("3.  Afisare biciclete disponibile");
+        System.out.println("4.  Rezervare bicicleta");
+        System.out.println("5.  Incepere cursa");
+        System.out.println("6.  Finalizare cursa");
+        System.out.println("7.  Afisare detalii cursa");
+        System.out.println("8.  Vizualizare profil");
+        System.out.println("9.  Editare profil");
+
+        ///  Admin Only actions
+        if (currentUser != null && isAdmin(currentUser)) {
+            System.out.println("11. Creare angajat nou");
+            System.out.println("12. Stergere angajat");
+            System.out.println("13. Editare angajat");
+            System.out.println("14. Vizualizare lista angajati");
+            System.out.println("15. Cautare angajat dupa ID");
+        }
+
     }
 
     public void afisareMeniu() {
@@ -26,8 +32,8 @@ public class Meniu {
         ArrayList<Bicicleta> biciclete = new ArrayList<>();
         ArrayList<User> users = new ArrayList<>();
 
-        // Pre existing admin user
-        User admin = new Admin();
+        // Pre-existing admin user
+        Admin admin = new Admin();
         admin.setId("1");
         admin.setName("admin");
         admin.setEmail("");
@@ -36,16 +42,7 @@ public class Meniu {
         users.add(admin);
 
         // Initialize bikes
-        for (int i = 0; i < 10; i++) {
-            Bicicleta bicicleta = new Bicicleta();
-            bicicleta.setId(String.valueOf(i + 1));
-            int randomLocation = (int) (Math.random() * Statii.values().length);
-            bicicleta.setLocation(Statii.values()[randomLocation].getStationName());
-            bicicleta.setBatteryStatus("100%");
-            bicicleta.setAvailable(true);
-            bicicleta.setUser(admin);
-            biciclete.add(bicicleta);
-        }
+        Utils.initBikes(10, admin, biciclete);
 
         //create cursa null
         Cursa cursa = new Cursa();
@@ -151,6 +148,13 @@ public class Meniu {
                         break;
                     }
                     editEmployee(scanner, users);
+                    break;
+                case 14:
+                    if (!isAdmin(currentUser)) {
+                        System.out.println("Acces interzis! Doar administratorii pot accesa aceasta functie.");
+                        break;
+                    }
+                    viewAllEmployees(users);
                     break;
                 default:
                     System.out.println("Optiune invalida");
@@ -276,8 +280,7 @@ public class Meniu {
         String employeeId = scanner.next();
 
         for (User user : users) {
-            if (user instanceof Angajat && ((Angajat) user).getEmployeeId().equals(employeeId)) {
-                Angajat employee = (Angajat) user;
+            if (user instanceof Angajat employee && employee.getEmployeeId().equals(employeeId)) {
                 System.out.println("\n=== Editare Angajat ===");
                 System.out.println("1. Modificare nume");
                 System.out.println("2. Modificare email");
@@ -325,7 +328,6 @@ public class Meniu {
         }
         System.out.println("Angajat negasit!");
     }
-
 
     private void afisareBicicleteDisponibile(ArrayList<Bicicleta> biciclete) {
         for (Bicicleta bicicleta : biciclete) {
@@ -384,6 +386,57 @@ public class Meniu {
             bicicleta.eliberare(user, endLocation);
         } else {
             System.out.println("Bicicleta cu ID-ul " + cursa.getBikeId() + " nu a fost gasita.");
+        }
+    }
+
+    private void viewEmployeeById(Scanner scanner, ArrayList<User> users) {
+        System.out.print("Introduceti Employee ID-ul angajatului: ");
+        String employeeId = scanner.next();
+        boolean found = false;
+
+        for (User user : users) {
+            if (user instanceof Angajat employee && employee.getEmployeeId().equals(employeeId)) {
+                System.out.println("\n=== Detalii Angajat ===");
+                System.out.println("ID: " + employee.getId());
+                System.out.println("Nume: " + employee.getName());
+                System.out.println("Email: " + employee.getEmail());
+                System.out.println("Employee ID: " + employee.getEmployeeId());
+                System.out.println("Rol: " + employee.getRole());
+                System.out.println("Departament: " + employee.getDepartment());
+                System.out.println("Salariu: " + employee.getSalary());
+                System.out.println("------------------------");
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Angajatul cu ID-ul " + employeeId + " nu a fost gasit!");
+        }
+    }
+
+    private void viewAllEmployees(ArrayList<User> users) {
+        System.out.println("\n=== Lista Angajati ===");
+        boolean found = false;
+
+        for (User user : users) {
+            if (user instanceof Angajat) {
+                Angajat employee = (Angajat) user;
+                System.out.println("\nDetalii Angajat:");
+                System.out.println("ID: " + employee.getId());
+                System.out.println("Nume: " + employee.getName());
+                System.out.println("Email: " + employee.getEmail());
+                System.out.println("Employee ID: " + employee.getEmployeeId());
+                System.out.println("Rol: " + employee.getRole());
+                System.out.println("Departament: " + employee.getDepartment());
+                System.out.println("Salariu: " + employee.getSalary());
+                System.out.println("------------------------");
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Nu exista angajati in sistem!");
         }
     }
 }
