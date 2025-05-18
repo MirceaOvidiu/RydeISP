@@ -9,7 +9,6 @@ public class Tests {
     private Meniu meniu;
     private ArrayList<User> users;
     private final InputStream systemIn = System.in;
-    private ByteArrayInputStream testIn;
 
     @BeforeEach
     void setUp() {
@@ -23,7 +22,7 @@ public class Tests {
     }
 
     private void provideInput(String data) {
-        testIn = new ByteArrayInputStream(data.getBytes());
+        ByteArrayInputStream testIn = new ByteArrayInputStream(data.getBytes());
         System.setIn(testIn);
     }
 
@@ -56,9 +55,7 @@ public class Tests {
         int initialSize = users.size();
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            meniu.createNewUser(scanner, users);
-        });
+        assertThrows(IllegalArgumentException.class, () -> meniu.createNewUser(scanner, users));
         assertEquals(initialSize, users.size(), "User list size should not change when creation fails");
     }
 
@@ -75,8 +72,8 @@ public class Tests {
 
         // Assert
         assertEquals(initialSize + 1, users.size());
-        User lastUser = users.get(users.size() - 1);
-        assertTrue(lastUser instanceof Angajat);
+        User lastUser = users.getLast();
+        assertInstanceOf(Angajat.class, lastUser);
         Angajat employee = (Angajat) lastUser;
 
         assertEquals("empUser", employee.getName());
@@ -97,9 +94,7 @@ public class Tests {
         int initialSize = users.size();
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            meniu.createEmployee(scanner, users);
-        });
+        assertThrows(IllegalArgumentException.class, () -> meniu.createEmployee(scanner, users));
         assertEquals(initialSize, users.size(), "User list size should not change when creation fails");
     }
 }
