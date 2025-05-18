@@ -1,5 +1,3 @@
-package Models;
-
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -102,16 +100,16 @@ public class Cursa {
         System.out.println("Timp de start: " + this.startTime);
         System.out.println("Timp de final: " + this.endTime);
         System.out.println("Distanta: " + this.distance + " km");
-        System.out.println("ID Models.Bicicleta: " + this.bikeId);
+        System.out.println("ID Bicicleta: " + this.bikeId);
         System.out.println("ID Utilizator: " + this.userId);
     }
 
     public void startCursa() {
-        System.out.println("Models.Cursa a inceput de la " + startLocation + " la " + endLocation);
+        System.out.println("Cursa a inceput de la " + startLocation + " la " + endLocation);
     }
 
     public void endCursa() {
-        System.out.println("Models.Cursa s-a terminat de la " + startLocation + " la " + endLocation);
+        System.out.println("Cursa s-a terminat de la " + startLocation + " la " + endLocation);
     }
 
     public void writeCursaToFile(Cursa cursa) {

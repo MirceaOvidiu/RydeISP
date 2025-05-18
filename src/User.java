@@ -1,5 +1,3 @@
-package Models;
-
 public class User {
     private String id;
     private String name;
@@ -52,8 +50,8 @@ public class User {
     }
 
     public void afisare() {
-        System.out.println("Models.User ID: " + id);
-        System.out.println("Models.User Name: " + name);
-        System.out.println("Models.User Email: " + email);
+        System.out.println("User ID: " + id);
+        System.out.println("User Name: " + name);
+        System.out.println("User Email: " + email);
     }
 }

@@ -1,5 +1,3 @@
-package Models;
-
 public class Client extends User {
     private String Iban;
 

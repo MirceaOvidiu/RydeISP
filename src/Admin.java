@@ -1,5 +1,3 @@
-package Models;
-
 public class Admin extends User {
     public static class Angajat extends User {
         private String role;

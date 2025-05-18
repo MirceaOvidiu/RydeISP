@@ -1,5 +1,3 @@
-package Models;
-
 public class Bicicleta {
     private String id;
     private String location;
@@ -73,10 +71,10 @@ public class Bicicleta {
 
     public void afisareDisponibilitate() {
         if (!this.isAvailable) {
-            System.out.println("Models.Bicicleta " + this.getId() + " nu este disponibila.");
+            System.out.println("Bicicleta " + this.getId() + " nu este disponibila.");
             return;
         }
-        System.out.println("Models.Bicicleta " + this.getId() + " este disponibila.");
+        System.out.println("Bicicleta " + this.getId() + " este disponibila.");
     }
 
     public void rezervare(String id, User user) {
@@ -88,9 +86,9 @@ public class Bicicleta {
         if (isAvailable) {
             isAvailable = false;
             this.user = user;
-            System.out.println("Models.Bicicleta " + this.getId() + " a fost rezervata de utilizatorul " + user.getName() + ".");
+            System.out.println("Bicicleta " + this.getId() + " a fost rezervata de utilizatorul " + user.getName() + ".");
         } else {
-            System.out.println("Models.Bicicleta " + this.getId() + " nu este disponibila.");
+            System.out.println("Bicicleta " + this.getId() + " nu este disponibila.");
         }
     }
 
@@ -103,7 +101,7 @@ public class Bicicleta {
         isAvailable = true;
         this.user = null;
         this.setLocation(location.getStationName());
-        System.out.println("Models.Bicicleta " + this.getId() + " a fost eliberata de utilizatorul " + user.getName() + ".");
+        System.out.println("Bicicleta " + this.getId() + " a fost eliberata de utilizatorul " + user.getName() + ".");
     }
 
     public void afisareDetalii() {

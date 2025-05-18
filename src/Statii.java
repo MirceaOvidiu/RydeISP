@@ -1,5 +1,3 @@
-package Models;
-
 public enum Statii {
     Politehnica("Politehnica"),
     Eroilor("Eroilor"),

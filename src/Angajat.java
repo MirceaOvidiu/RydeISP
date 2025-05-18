@@ -1,5 +1,3 @@
-package Models;
-
 public class Angajat extends User {
     private String role;
     private String department;
