@@ -1,3 +1,7 @@
+package Models;
+
+import Tests.Tests;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -5,7 +9,7 @@ public class Meniu {
     private User currentUser;
 
     public void listMenuOptions() {
-        System.out.println("\n=== Meniu Principal ===");
+        System.out.println("\n=== Models.Meniu Principal ===");
         System.out.println("1.  Autentificare");
         System.out.println("2.  Creare cont nou");
         System.out.println("3.  Afisare biciclete disponibile");
@@ -17,7 +21,7 @@ public class Meniu {
         System.out.println("9.  Editare profil");
         System.out.println("10. Iesire");
 
-        ///  Admin Only actions
+        ///  Models.Admin Only actions
         ///  isAdmin implies null check by default
         if (isAdmin(currentUser)) {
             System.out.println("11. Creare angajat nou");
@@ -30,7 +34,7 @@ public class Meniu {
     }
 
     public void listEmployeeDetails(Angajat employee) {
-        System.out.println("\n=== Detalii Angajat ===");
+        System.out.println("\n=== Detalii Models.Angajat ===");
         System.out.println("ID: " + employee.getId());
         System.out.println("Nume: " + employee.getName());
         System.out.println("Email: " + employee.getEmail());
@@ -194,7 +198,7 @@ public class Meniu {
         scanner.close();
     }
 
-    // User related functions
+    // Models.User related functions
     private User login(Scanner scanner, ArrayList<User> users) {
         System.out.print("Username: ");
         String username = scanner.next();
@@ -290,7 +294,7 @@ public class Meniu {
     }
 
     public void createEmployee(Scanner scanner, ArrayList<User> users) {
-        System.out.println("\n=== Creare Angajat Nou ===");
+        System.out.println("\n=== Creare Models.Angajat Nou ===");
 
         String username;
         do {
@@ -325,7 +329,7 @@ public class Meniu {
         String newId = String.valueOf(users.size() + 1);
         Angajat newEmployee = new Angajat(newId, username, email, password, employeeId, role, department, salary);
         users.add(newEmployee);
-        System.out.println("Angajat creat cu succes!");
+        System.out.println("Models.Angajat creat cu succes!");
     }
 
     private void deleteEmployee(Scanner scanner, ArrayList<User> users) {
@@ -334,7 +338,7 @@ public class Meniu {
 
         users.removeIf(user -> user instanceof Angajat &&
                 ((Angajat) user).getEmployeeId().equals(employeeId));
-        System.out.println("Angajat sters cu succes!");
+        System.out.println("Models.Angajat sters cu succes!");
     }
 
     private void editEmployee(Scanner scanner, ArrayList<User> users) {
@@ -343,7 +347,7 @@ public class Meniu {
 
         for (User user : users) {
             if (user instanceof Angajat employee && employee.getEmployeeId().equals(employeeId)) {
-                System.out.println("\n=== Editare Angajat ===");
+                System.out.println("\n=== Editare Models.Angajat ===");
                 System.out.println("1. Modificare nume");
                 System.out.println("2. Modificare email");
                 System.out.println("3. Modificare parola");
@@ -384,11 +388,11 @@ public class Meniu {
                         System.out.println("Optiune invalida!");
                         return;
                 }
-                System.out.println("Angajat modificat cu succes!");
+                System.out.println("Models.Angajat modificat cu succes!");
                 return;
             }
         }
-        System.out.println("Angajat negasit!");
+        System.out.println("Models.Angajat negasit!");
     }
 
     private void afisareBicicleteDisponibile(ArrayList<Bicicleta> biciclete) {
@@ -409,7 +413,7 @@ public class Meniu {
             bicicleta.rezervare(bicicletaID, user);
             bicicleta.setLocation(locatie.getStationName());
         } else {
-            System.out.println("Bicicleta cu ID-ul " + bicicletaID + " nu a fost gasita.");
+            System.out.println("Models.Bicicleta cu ID-ul " + bicicletaID + " nu a fost gasita.");
         }
     }
 
@@ -426,7 +430,7 @@ public class Meniu {
             cursa.setStartTime(String.valueOf(System.currentTimeMillis()));
             cursa.startCursa();
         } else {
-            System.out.println("Bicicleta cu ID-ul " + bicicletaID + " nu a fost gasita.");
+            System.out.println("Models.Bicicleta cu ID-ul " + bicicletaID + " nu a fost gasita.");
         }
     }
 
@@ -447,7 +451,7 @@ public class Meniu {
         if (bicicleta != null) {
             bicicleta.eliberare(user, endLocation);
         } else {
-            System.out.println("Bicicleta cu ID-ul " + cursa.getBikeId() + " nu a fost gasita.");
+            System.out.println("Models.Bicicleta cu ID-ul " + cursa.getBikeId() + " nu a fost gasita.");
         }
     }
 
@@ -489,11 +493,10 @@ public class Meniu {
         boolean testingMode = true;
 
         while (testingMode) {
-            System.out.println("\n=== Meniu Teste Unitare ===");
+            System.out.println("\n=== Models.Meniu Teste Unitare ===");
             System.out.println("1. Test creare utilizator nou");
             System.out.println("2. Test creare angajat");
-            System.out.println("3. Test creare angajat cu date invalide");
-            System.out.println("4. Inapoi la meniul principal");
+            System.out.println("3. Inapoi la meniul principal");
 
             System.out.print("\nAlegeti testul de rulat: ");
             int choice = scanner.nextInt();

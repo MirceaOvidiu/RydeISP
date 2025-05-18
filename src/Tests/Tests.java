@@ -1,8 +1,12 @@
+package Tests;
+
+import Models.*;
+
 import org.junit.jupiter.api.*;
 import java.util.ArrayList;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Scanner;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Tests {
@@ -11,13 +15,13 @@ public class Tests {
     private final InputStream systemIn = System.in;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         meniu = new Meniu();
         users = new ArrayList<>();
     }
 
     @AfterEach
-    void restoreSystemInput() {
+    public void restoreSystemInput() {
         System.setIn(systemIn);
     }
 
@@ -27,7 +31,7 @@ public class Tests {
     }
 
     @Test
-    void testCreateNewUser() {
+    public void testCreateNewUser() {
         // Arrange
         int initialSize = users.size();
         String id = (initialSize + 1) + "";;
@@ -41,17 +45,17 @@ public class Tests {
 
         // Assert
         assertNotNull(newUser);
-        assertFalse(newUser.getName().isEmpty());
-        assertEquals("testUser", newUser.getName());
-        assertEquals("test@email.com", newUser.getEmail());
-        assertFalse(newUser.getPass().isEmpty());
-        assertEquals("password", newUser.getPass());
-        assertEquals(String.valueOf(initialSize + 1), newUser.getId());
+        Assertions.assertFalse(newUser.getName().isEmpty());
+        Assertions.assertEquals("testUser", newUser.getName());
+        Assertions.assertEquals("test@email.com", newUser.getEmail());
+        Assertions.assertFalse(newUser.getPass().isEmpty());
+        Assertions.assertEquals("password", newUser.getPass());
+        Assertions.assertEquals(String.valueOf(initialSize + 1), newUser.getId());
         assertEquals(initialSize + 1, users.size());
     }
 
     @Test
-    void testCreateEmployee() {
+    public void testCreateEmployee() {
         // Arrange
         int initialSize = users.size();
 
@@ -70,16 +74,16 @@ public class Tests {
 
         // Assert
         /// Empty username/passwd causes AssertionFailed
-        assertFalse(employee.getName().isEmpty(), "Employee name should not be empty");
-        assertEquals("testEmployee", employee.getName());
+        Assertions.assertFalse(employee.getName().isEmpty(), "Employee name should not be empty");
+        Assertions.assertEquals("testEmployee", employee.getName());
 
-        assertEquals("emp@email.com", employee.getEmail());
-        assertFalse(employee.getPass().isEmpty(), "Employee passwd should not be empty");
-        assertEquals("pass123", employee.getPass());
-        assertEquals("EMP001", employee.getEmployeeId());
-        assertEquals("Manager", employee.getRole());
-        assertEquals("HR", employee.getDepartment());
-        assertEquals(50000.0, employee.getSalary(), 0.01);
+        Assertions.assertEquals("emp@email.com", employee.getEmail());
+        Assertions.assertFalse(employee.getPass().isEmpty(), "Employee password should not be empty");
+        Assertions.assertEquals("pass123", employee.getPass());
+        Assertions.assertEquals("EMP001", employee.getEmployeeId());
+        Assertions.assertEquals("Manager", employee.getRole());
+        Assertions.assertEquals("HR", employee.getDepartment());
+        Assertions.assertEquals(50000.0, employee.getSalary(), 0.01);
     }
 
 }
