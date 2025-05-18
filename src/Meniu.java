@@ -18,6 +18,7 @@ public class Meniu {
         System.out.println("10. Iesire");
 
         ///  Admin Only actions
+        ///  isAdmin implies null check by default
         if (isAdmin(currentUser)) {
             System.out.println("11. Creare angajat nou");
             System.out.println("12. Stergere angajat");
@@ -40,10 +41,7 @@ public class Meniu {
     }
 
     public void afisareMeniu() {
-        // Init required variables using ArrayList
-        ArrayList<Bicicleta> biciclete = new ArrayList<>();
         ArrayList<User> users = new ArrayList<>();
-
         // Pre-existing admin user
         Admin admin = new Admin();
         admin.setId("1");
@@ -53,8 +51,8 @@ public class Meniu {
         admin.afisare();
         users.add(admin);
 
-        // Initialize bikes
-        Utils.initBikes(10, admin, biciclete);
+        ArrayList<Bicicleta> biciclete = new ArrayList<>();
+        Utils.initBikes(25, admin, biciclete);
 
         //create cursa null
         Cursa cursa = new Cursa();
@@ -71,12 +69,15 @@ public class Meniu {
                 case 1:
                     currentUser = login(scanner, users);
                     break;
+
                 case 2:
                     currentUser = createNewUser(scanner, users);
                     break;
+
                 case 3:
                     afisareBicicleteDisponibile(biciclete);
                     break;
+
                 case 4:
                     if (currentUser == null) {
                         System.out.println("Trebuie sa va autentificati mai intai!");
@@ -88,6 +89,7 @@ public class Meniu {
                     String locatieNume = scanner.next();
                     rezervareBicicleta(bicicletaID, currentUser, Statii.valueOf(locatieNume), biciclete);
                     break;
+
                 case 5:
                     if (currentUser == null) {
                         System.out.println("Trebuie sa va autentificati mai intai!");
@@ -106,6 +108,7 @@ public class Meniu {
 
                     startCursa(bicicletaID, currentUser, Statii.valueOf(startLocationNume), biciclete, cursa);
                     break;
+
                 case 6:
                     if (currentUser == null) {
                         System.out.println("Trebuie sa va autentificati mai intai!");
@@ -115,6 +118,7 @@ public class Meniu {
                     String endLocationNume = scanner.next();
                     terminareCursa(cursa, Statii.valueOf(endLocationNume), biciclete, currentUser);
                     break;
+
                 case 7:
                     if (currentUser == null) {
                         System.out.println("Trebuie sa va autentificati mai intai!");
@@ -122,6 +126,7 @@ public class Meniu {
                     }
                     cursa.afisareDetalii();
                     break;
+
                 case 8:
                     if (currentUser == null) {
                         System.out.println("Trebuie sa va autentificati mai intai!");
@@ -129,6 +134,7 @@ public class Meniu {
                     }
                     showUserProfile(currentUser);
                     break;
+
                 case 9:
                     if (currentUser == null) {
                         System.out.println("Trebuie sa va autentificati mai intai!");
@@ -136,10 +142,12 @@ public class Meniu {
                     }
                     editUserProfile(scanner, currentUser);
                     break;
+
                 case 10:
                     System.out.println("La revedere!");
                     running = false;
                     break;
+
                 case 11:
                     if (!isAdmin(currentUser)) {
                         System.out.println("Acces interzis! Doar administratorii pot accesa aceasta functie.");
@@ -147,6 +155,7 @@ public class Meniu {
                     }
                     createEmployee(scanner, users);
                     break;
+
                 case 12:
                     if (!isAdmin(currentUser)) {
                         System.out.println("Acces interzis! Doar administratorii pot accesa aceasta functie.");
@@ -154,6 +163,7 @@ public class Meniu {
                     }
                     deleteEmployee(scanner, users);
                     break;
+
                 case 13:
                     if (!isAdmin(currentUser)) {
                         System.out.println("Acces interzis! Doar administratorii pot accesa aceasta functie.");
@@ -161,6 +171,7 @@ public class Meniu {
                     }
                     editEmployee(scanner, users);
                     break;
+
                 case 14:
                     if (!isAdmin(currentUser)) {
                         System.out.println("Acces interzis! Doar administratorii pot accesa aceasta functie.");
@@ -168,6 +179,7 @@ public class Meniu {
                     }
                     viewAllEmployees(users);
                     break;
+
                 case 15:
                     if (!isAdmin(currentUser)) {
                         System.out.println("Acces interzis! Doar administratorii pot accesa aceasta functie.");
