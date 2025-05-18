@@ -1,8 +1,13 @@
+package Tests;
+
+import Models.Angajat;
+import Models.Meniu;
+import Models.User;
 import org.junit.jupiter.api.*;
 import java.util.ArrayList;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Scanner;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Tests {

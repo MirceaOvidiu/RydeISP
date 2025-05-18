@@ -1,3 +1,5 @@
+package Models;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +54,7 @@ public class Administrator extends User {
         setPass(newPass);
     }
 
-    // Angajat methods
+    // Models.Angajat methods
     public void adaugaAngajat(Angajat angajat) {
         if (cautaAngajatDupaId(angajat.getId()) == null) {
             angajati.add(angajat);
@@ -90,12 +92,12 @@ public class Administrator extends User {
         System.out.println("Angajatul nu a fost gasit pentru actualizare.");
     }
 
-    // Bicicleta methods
+    // Models.Bicicleta methods
     public void adaugaBicicleta(Bicicleta bicicleta) {
         if (cautaBicicletaDupaId(bicicleta.getId()) == null) {
             biciclete.add(bicicleta);
         } else {
-            System.out.println("Bicicleta cu acest ID exista deja.");
+            System.out.println("Models.Bicicleta cu acest ID exista deja.");
         }
     }
 
@@ -125,10 +127,10 @@ public class Administrator extends User {
                 return;
             }
         }
-        System.out.println("Bicicleta nu a fost gasita pentru actualizare.");
+        System.out.println("Models.Bicicleta nu a fost gasita pentru actualizare.");
     }
 
-    // Client methods
+    // Models.Client methods
     public void adaugaClient(Client client) {
         if (cautaClientDupaId(client.getId()) == null) {
             clienti.add(client);
@@ -167,7 +169,7 @@ public class Administrator extends User {
     }
 
     public static void main(String[] args) {
-        Administrator admin = new Administrator("1", "Admin", "admin@email.com", "adminpass");
+        Administrator admin = new Administrator("1", "Models.Admin", "admin@email.com", "adminpass");
 
         Angajat angajat = new Angajat("2", "ion", "ion@email.com", "pass", "E001", "Manager", "HR", 5000);
         admin.adaugaAngajat(angajat);
