@@ -193,7 +193,7 @@ public class Meniu {
     }
 
     // Tests.Models.User related functions
-    private User login(Scanner scanner, ArrayList<User> users) {
+    public User login(Scanner scanner, ArrayList<User> users) {
         System.out.print("Username: ");
         String username = scanner.next();
         System.out.print("Password: ");
@@ -253,7 +253,7 @@ public class Meniu {
         System.out.println("Email: " + user.getEmail());
     }
 
-    private void editUserProfile(Scanner scanner, User user) {
+    public void editUserProfile(Scanner scanner, User user) {
         System.out.println("\n=== Editare Profil ===");
         System.out.println("1. Schimbare nume");
         System.out.println("2. Schimbare email");
@@ -389,7 +389,7 @@ public class Meniu {
         System.out.println("Models.Angajat negasit!");
     }
 
-    private void afisareBicicleteDisponibile(ArrayList<Bicicleta> biciclete) {
+    public void afisareBicicleteDisponibile(ArrayList<Bicicleta> biciclete) {
         for (Bicicleta bicicleta : biciclete) {
             if (bicicleta.isAvailable()) {
                 bicicleta.afisareDisponibilitate();
@@ -397,7 +397,7 @@ public class Meniu {
         }
     }
 
-    private void rezervareBicicleta(String bicicletaID, User user, Statii locatie, ArrayList<Bicicleta> biciclete) {
+    public void rezervareBicicleta(String bicicletaID, User user, Statii locatie, ArrayList<Bicicleta> biciclete) {
         Bicicleta bicicleta = biciclete.stream()
                 .filter(b -> b.getId().equals(bicicletaID))
                 .findFirst()
