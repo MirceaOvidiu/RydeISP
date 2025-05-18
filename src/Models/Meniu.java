@@ -411,7 +411,7 @@ public class Meniu {
         }
     }
 
-    private void startCursa(String bicicletaID, User user, Statii locatie, ArrayList<Bicicleta> biciclete, Cursa cursa) {
+    public void startCursa(String bicicletaID, User user, Statii locatie, ArrayList<Bicicleta> biciclete, Cursa cursa) {
         Bicicleta bicicleta = biciclete.stream()
                 .filter(b -> b.getId().equals(bicicletaID))
                 .findFirst()
@@ -428,7 +428,7 @@ public class Meniu {
         }
     }
 
-    private void terminareCursa(Cursa cursa, Statii endLocation, ArrayList<Bicicleta> biciclete, User user) {
+    public void terminareCursa(Cursa cursa, Statii endLocation, ArrayList<Bicicleta> biciclete, User user) {
         cursa.setEndLocation(endLocation.getStationName());
         cursa.setEndTime(String.valueOf(System.currentTimeMillis()));
         cursa.endCursa();
@@ -436,6 +436,16 @@ public class Meniu {
         int distance = (int) ((Long.parseLong(cursa.getEndTime()) - Long.parseLong(cursa.getStartTime())) * 5);
         cursa.setDistance(distance);
         cursa.writeCursaToFile(cursa);
+
+        // Payment calculation and logging
+        double pricePerKm = 2.0;
+        double totalPrice = distance * pricePerKm;
+        System.out.println("Payment of " + totalPrice + " RON for location: " + endLocation.getStationName());
+        try (java.io.FileWriter writer = new java.io.FileWriter("istoric_curse.txt", true)) {
+            writer.write("User: " + user.getId() + ", Location: " + endLocation.getStationName() + ", Price: " + totalPrice + "\n");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
 
         Bicicleta bicicleta = biciclete.stream()
                 .filter(b -> b.getId().equals(cursa.getBikeId()))
@@ -447,6 +457,7 @@ public class Meniu {
         } else {
             System.out.println("Models.Bicicleta cu ID-ul " + cursa.getBikeId() + " nu a fost gasita.");
         }
+
     }
 
     private void viewEmployeeById(Scanner scanner, ArrayList<User> users) {

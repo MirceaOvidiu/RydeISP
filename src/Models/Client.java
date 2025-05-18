@@ -35,27 +35,53 @@ public class Client extends User {
     }
 
     private void plata(String location) {
-        // Implement payment logic here
-        // Calcul matematic al pretului in functie de distanta
-        // Dupa care faci plata pentru bicicleta respectiva
-        // Adaugi cursa intr-un fisier txt
+        // Example: calculate price based on distance (dummy value for now)
+        double distance = 5.0; // Replace with actual distance calculation
+        double pricePerKm = 2.0;
+        double totalPrice = distance * pricePerKm;
+
+        // Simulate payment (could integrate with payment API)
+        System.out.println("Payment of " + totalPrice + " RON for location: " + location);
+
+        // Save ride to a txt file
+        try (java.io.FileWriter writer = new java.io.FileWriter("istoric_curse.txt", true)) {
+            writer.write("User: " + this.getId() + ", Location: " + location + ", Price: " + totalPrice + "\n");
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void eliberare() {
-        // Implementation needed
+        // Simulate bike release
+        System.out.println("Bicicleta eliberata de catre clientul cu ID: " + this.getId());
     }
 
     private void cautaBicicleta(String location) {
-        // Implement search logic here
-        // Faci o cautare a bicicletelor dupa statii si dupa afisezi bicicletele disponibile
-        // Daca nu sunt biciclete disponibile, afisezi un mesaj corespunzator
+        // Dummy search logic
+        System.out.println("Caut biciclete disponibile la statia: " + location);
+        // In real implementation, query available bikes from station
+        boolean bikesAvailable = true; // Replace with actual check
+        if (bikesAvailable) {
+            System.out.println("Biciclete disponibile gasite la statia " + location);
+        } else {
+            System.out.println("Nu sunt biciclete disponibile la statia " + location);
+        }
     }
 
     private void afisareDetaliiCursa() {
-        // Implementation needed
+        // Dummy details
+        System.out.println("Detalii cursa: UserID=" + this.getId() + ", IBAN=" + this.getIban());
     }
 
     private void afisareIstoricCurse() {
-        // Implement history display logic here
+        // Read and display ride history from file
+        try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader("istoric_curse.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (java.io.IOException e) {
+            System.out.println("Nu exista istoric de curse sau a aparut o eroare.");
+        }
     }
 }

@@ -12,8 +12,6 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HampiTest {
-    ArrayList<User> users = new ArrayList<>();
-    ArrayList<Bicicleta> biciclete = new ArrayList<>();
 
 
     @Test
@@ -73,7 +71,7 @@ public class HampiTest {
         User user = new User("1", "testUser", "test@email.com", "password");
         Meniu meniu = new Meniu();
         meniu.rezervareBicicleta("1", user, Statii.valueOf("Grozavesti"), biciclete);
-        // You may want to check if the bike is no longer available or reserved by the user
-        // This depends on your Bicicleta implementation
+        assertFalse(bike.isAvailable());
+        assertEquals(user, bike.getUser());
     }
 }

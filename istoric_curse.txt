@@ -1,0 +1,2 @@
+User: 1, Location: Grozavesti, Price: 50.0
+User: 1, Location: Grozavesti, Price: 10.0
