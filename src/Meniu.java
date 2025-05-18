@@ -516,12 +516,6 @@ public class Meniu {
                         break;
 
                     case 3:
-                        System.out.println("\nRulare test: Creare angajat invalid");
-                        tests.testInvalidEmployeeCreation();
-                        System.out.println("Test creare angajat invalid: SUCCES");
-                        break;
-
-                    case 4:
                         System.out.println("Iesire din modul testare...");
                         testingMode = false;
                         break;
