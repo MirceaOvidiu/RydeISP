@@ -15,16 +15,28 @@ public class Meniu {
         System.out.println("7.  Afisare detalii cursa");
         System.out.println("8.  Vizualizare profil");
         System.out.println("9.  Editare profil");
+        System.out.println("10. Iesire");
 
         ///  Admin Only actions
-        if (currentUser != null && isAdmin(currentUser)) {
+        if (isAdmin(currentUser)) {
             System.out.println("11. Creare angajat nou");
             System.out.println("12. Stergere angajat");
             System.out.println("13. Editare angajat");
             System.out.println("14. Vizualizare lista angajati");
-            System.out.println("15. Cautare angajat dupa ID");
+            System.out.println("15. Teste unitare JUnit");
         }
 
+    }
+
+    public void listEmployeeDetails(Angajat employee) {
+        System.out.println("\n=== Detalii Angajat ===");
+        System.out.println("ID: " + employee.getId());
+        System.out.println("Nume: " + employee.getName());
+        System.out.println("Email: " + employee.getEmail());
+        System.out.println("Employee ID: " + employee.getEmployeeId());
+        System.out.println("Rol: " + employee.getRole());
+        System.out.println("Departament: " + employee.getDepartment());
+        System.out.println("Salariu: " + employee.getSalary());
     }
 
     public void afisareMeniu() {
@@ -156,6 +168,13 @@ public class Meniu {
                     }
                     viewAllEmployees(users);
                     break;
+                case 15:
+                    if (!isAdmin(currentUser)) {
+                        System.out.println("Acces interzis! Doar administratorii pot accesa aceasta functie.");
+                        break;
+                    }
+                    runUnitTests(scanner);
+                    break;
                 default:
                     System.out.println("Optiune invalida");
             }
@@ -180,16 +199,31 @@ public class Meniu {
         return null;
     }
 
-    private User createNewUser(Scanner scanner, ArrayList<User> users) {
+    // Must be public for JUnit testing
+    public User createNewUser(Scanner scanner, ArrayList<User> users) {
         System.out.println("\n=== Creare cont nou ===");
-        System.out.print("Username: ");
-        String username = scanner.next();
+
+        String username;
+        do {
+            System.out.print("Username: ");
+            username = scanner.next().trim();
+            if (username.isEmpty()) {
+                System.out.println("Username nu poate fi gol!");
+            }
+        } while (username.isEmpty());
+
         System.out.print("Email: ");
         String email = scanner.next();
-        System.out.print("Password: ");
-        String password = scanner.next();
 
-        // Generate new ID based on users size
+        String password;
+        do {
+            System.out.print("Password: ");
+            password = scanner.next().trim();
+            if (password.isEmpty()) {
+                System.out.println("Parola nu poate fi goala!");
+            }
+        } while (password.isEmpty());
+
         String newId = String.valueOf(users.size() + 1);
 
         User newUser = new User(newId, username, email, password);
@@ -243,14 +277,30 @@ public class Meniu {
         }
     }
 
-    private void createEmployee(Scanner scanner, ArrayList<User> users) {
+    public void createEmployee(Scanner scanner, ArrayList<User> users) {
         System.out.println("\n=== Creare Angajat Nou ===");
-        System.out.print("Username: ");
-        String username = scanner.next();
+
+        String username;
+        do {
+            System.out.print("Username: ");
+            username = scanner.next().trim();
+            if (username.isEmpty()) {
+                System.out.println("Username nu poate fi gol!");
+            }
+        } while (username.isEmpty());
+
         System.out.print("Email: ");
         String email = scanner.next();
-        System.out.print("Password: ");
-        String password = scanner.next();
+
+        String password;
+        do {
+            System.out.print("Password: ");
+            password = scanner.next().trim();
+            if (password.isEmpty()) {
+                System.out.println("Parola nu poate fi goala!");
+            }
+        } while (password.isEmpty());
+
         System.out.print("Employee ID: ");
         String employeeId = scanner.next();
         System.out.print("Role: ");
@@ -396,15 +446,7 @@ public class Meniu {
 
         for (User user : users) {
             if (user instanceof Angajat employee && employee.getEmployeeId().equals(employeeId)) {
-                System.out.println("\n=== Detalii Angajat ===");
-                System.out.println("ID: " + employee.getId());
-                System.out.println("Nume: " + employee.getName());
-                System.out.println("Email: " + employee.getEmail());
-                System.out.println("Employee ID: " + employee.getEmployeeId());
-                System.out.println("Rol: " + employee.getRole());
-                System.out.println("Departament: " + employee.getDepartment());
-                System.out.println("Salariu: " + employee.getSalary());
-                System.out.println("------------------------");
+                listEmployeeDetails(employee);
                 found = true;
                 break;
             }
@@ -420,17 +462,8 @@ public class Meniu {
         boolean found = false;
 
         for (User user : users) {
-            if (user instanceof Angajat) {
-                Angajat employee = (Angajat) user;
-                System.out.println("\nDetalii Angajat:");
-                System.out.println("ID: " + employee.getId());
-                System.out.println("Nume: " + employee.getName());
-                System.out.println("Email: " + employee.getEmail());
-                System.out.println("Employee ID: " + employee.getEmployeeId());
-                System.out.println("Rol: " + employee.getRole());
-                System.out.println("Departament: " + employee.getDepartment());
-                System.out.println("Salariu: " + employee.getSalary());
-                System.out.println("------------------------");
+            if (user instanceof Angajat employee) {
+                listEmployeeDetails(employee);
                 found = true;
             }
         }
@@ -439,4 +472,57 @@ public class Meniu {
             System.out.println("Nu exista angajati in sistem!");
         }
     }
+
+    public void runUnitTests(Scanner scanner) {
+        boolean testingMode = true;
+
+        while (testingMode) {
+            System.out.println("\n=== Meniu Teste Unitare ===");
+            System.out.println("1. Test creare utilizator nou");
+            System.out.println("2. Test creare angajat");
+            System.out.println("3. Test creare angajat cu date invalide");
+            System.out.println("4. Inapoi la meniul principal");
+
+            System.out.print("\nAlegeti testul de rulat: ");
+            int choice = scanner.nextInt();
+
+            Tests tests = new Tests();
+            tests.setUp(); // Initialize test environment
+
+            try {
+                switch (choice) {
+                    case 1:
+                        System.out.println("\nRulare test: Creare utilizator nou");
+                        tests.testCreateNewUser();
+                        System.out.println("Test creare utilizator nou: SUCCES");
+                        break;
+
+                    case 2:
+                        System.out.println("\nRulare test: Creare angajat");
+                        tests.testCreateEmployee();
+                        System.out.println("Test creare angajat: SUCCES");
+                        break;
+
+                    case 3:
+                        System.out.println("\nRulare test: Creare angajat invalid");
+                        tests.testInvalidEmployeeCreation();
+                        System.out.println("Test creare angajat invalid: SUCCES");
+                        break;
+
+                    case 4:
+                        System.out.println("Iesire din modul testare...");
+                        testingMode = false;
+                        break;
+
+                    default:
+                        System.out.println("Optiune invalida!");
+                }
+            } catch (AssertionError e) {
+                System.out.println("Test ESUAT: " + e.getMessage());
+            } finally {
+                tests.restoreSystemInput(); // Cleanup after test
+            }
+        }
+    }
+
 }
